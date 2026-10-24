@@ -1,73 +1,52 @@
-# React + TypeScript + Vite
+# TradeDash
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A stock dashboard built with React and TypeScript for looking up stock quotes and tracking a personal watchlist. Featured among the selected projects in [MyPortfolio](https://github.com/AbelGebretinsae/MyPortfolio).
 
-Currently, two official plugins are available:
+**Live app:** [tradedash-app.vercel.app](https://tradedash-app.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Repository:** [AbelGebretinsae/TradeDash](https://github.com/AbelGebretinsae/TradeDash)
 
-## React Compiler
+## Features
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- Search by ticker symbol or select a stock from the watchlist.
+- Fetch current quotes from Finnhub, including price, percentage change, open, high, low, and previous close.
+- Add and remove watchlist symbols, prevent duplicates, and save the watchlist across visits with localStorage.
+- Display loading and error states in a responsive dashboard with color-coded price changes and SVG sparklines.
 
-## Expanding the ESLint configuration
+Quotes are fetched when a symbol is selected; they do not stream continuously. Sparkline points are generated from quote values for illustration and are not historical market data.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Built With
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+React, TypeScript, Vite, Tailwind CSS, custom CSS, Finnhub API, and browser localStorage.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Run Locally
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Requires Node.js 22.12+ and npm, plus a [Finnhub API key](https://finnhub.io/).
+
+```bash
+git clone https://github.com/AbelGebretinsae/TradeDash.git
+cd TradeDash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Create a `.env.local` file in the project root:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```dotenv
+VITE_FINNHUB_API_KEY=your_finnhub_api_key
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Open the local URL printed by Vite, then search for a ticker such as `AAPL`. Restart the server after changing environment variables. Vite exposes `VITE_` variables to the browser, so this key is included in the client app.
+
+## Other Commands
+
+```bash
+npm run build    # Type-check and create a production build
+npm run preview  # Preview the production build locally
+npm run lint     # Run ESLint
 ```
